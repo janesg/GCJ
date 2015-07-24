@@ -5,15 +5,22 @@ import org.slf4j.LoggerFactory;
 
 public class StringPoolDemo {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(StringPoolDemo.class.getName());
+	private static final Logger LOGGER = LoggerFactory.getLogger(StringPoolDemo.class);
 	
 	public static void main(String[] args) {
 		
-		// Declare individual new String objects
+	    // Declare String literal
+	    String strLit = "eBay";
+	    
+		// Declare individual new String objects (some with same value as literal)
         String strA = new String("eBay");
         String strB = new String("eBay");
         String strC = new String("Paypal");
  
+        // Proof that even though literal exists, the other objects with same value are
+        // not referencing same String object from String Pool
+        LOGGER.info("strA == strLit equates to {}", strA == strLit);
+
         // Declare String literals which will reside in StringPool
         String strE = "amazon";
         String strF = "amazon";
