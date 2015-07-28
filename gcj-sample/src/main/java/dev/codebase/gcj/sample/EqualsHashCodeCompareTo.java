@@ -48,6 +48,9 @@ public class EqualsHashCodeCompareTo implements Comparable<EqualsHashCodeCompare
     }
 
     public int compareTo(EqualsHashCodeCompareTo o) {
+        
+        if (o == null) throw new NullPointerException("Input parameter is null");
+        
         final int BEFORE = -1;
         final int EQUAL = 0;
         final int AFTER = 1;
