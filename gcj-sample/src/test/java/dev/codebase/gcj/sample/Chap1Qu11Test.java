@@ -1,8 +1,8 @@
 package dev.codebase.gcj.sample;
 
-import org.junit.Test;
+import static org.junit.Assert.*;
 
-import junit.framework.Assert;
+import org.junit.Test;
 
 public class Chap1Qu11Test {
 	
@@ -10,12 +10,12 @@ public class Chap1Qu11Test {
 	public void testContainsAllUniqueChars() {
 		Chap1Qu11 qu = new Chap1Qu11();
 		
-		Assert.assertTrue(qu.containsAllUniqueChars(null));
-		Assert.assertTrue(qu.containsAllUniqueChars("ab"));
-		Assert.assertFalse(qu.containsAllUniqueChars("aa"));
-		Assert.assertTrue(qu.containsAllUniqueChars("abcdef"));
-		Assert.assertTrue(qu.containsAllUniqueChars("aAbBcC"));
-		Assert.assertFalse(qu.containsAllUniqueChars("aAbBcc"));
+		assertTrue(qu.containsAllUniqueChars(null));
+		assertTrue(qu.containsAllUniqueChars("ab"));
+		assertFalse(qu.containsAllUniqueChars("aa"));
+		assertTrue(qu.containsAllUniqueChars("abcdef"));
+		assertTrue(qu.containsAllUniqueChars("aAbBcC"));
+		assertFalse(qu.containsAllUniqueChars("aAbBcc"));
 		
 		assert qu.containsAllUniqueChars(null);
 		assert qu.containsAllUniqueChars("ab");
@@ -28,12 +28,13 @@ public class Chap1Qu11Test {
 	@Test
 	public void testContainsAllUniqueChars2() {
 		Chap1Qu11 qu = new Chap1Qu11();
-		Assert.assertTrue(qu.containsAllUniqueChars2(null));
-		Assert.assertTrue(qu.containsAllUniqueChars2("ab"));
-		Assert.assertFalse(qu.containsAllUniqueChars2("aa"));
-		Assert.assertTrue(qu.containsAllUniqueChars2("abcdef"));
-		Assert.assertTrue(qu.containsAllUniqueChars2("aAbBcC"));
-		Assert.assertFalse(qu.containsAllUniqueChars2("aAbBcc"));
+		
+		assertTrue(qu.containsAllUniqueChars2(null));
+		assertTrue(qu.containsAllUniqueChars2("ab"));
+		assertFalse(qu.containsAllUniqueChars2("aa"));
+		assertTrue(qu.containsAllUniqueChars2("abcdef"));
+		assertTrue(qu.containsAllUniqueChars2("aAbBcC"));
+		assertFalse(qu.containsAllUniqueChars2("aAbBcc"));
 	}
 
 }
