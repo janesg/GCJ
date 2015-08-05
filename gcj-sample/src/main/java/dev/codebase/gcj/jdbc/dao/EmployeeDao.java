@@ -8,6 +8,8 @@ public interface EmployeeDao {
     
     Employee getEmployeeById(int id);
     
+    Employee getEmployeeByIdUsingFunction(int id);
+    
     void insertEmployee(Employee employee);
     
     void deleteEmployee(int id);

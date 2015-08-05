@@ -5,12 +5,18 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import java.util.List;
+import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
 
 import dev.codebase.gcj.jdbc.model.Employee;
@@ -18,6 +24,8 @@ import dev.codebase.gcj.jdbc.model.Employee;
 @Repository
 public class EmployeeDaoSpringImpl2 implements EmployeeDao {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(EmployeeDaoSpringImpl2.class);
+    
     @Autowired
     JdbcTemplate jdbcTemplate;
     
@@ -116,6 +124,33 @@ public class EmployeeDaoSpringImpl2 implements EmployeeDao {
         Integer result = jdbcTemplate.queryForObject("select count(*) from EMPLOYEE", Integer.class);
         
         return result != null ? result : 0; 
+    }
+
+    @Override
+    public Employee getEmployeeByIdUsingFunction(int id) {
+
+        SqlParameterSource in = new MapSqlParameterSource().addValue("emp_id", id);
+        
+        SimpleJdbcCall jdbcCall = 
+                new SimpleJdbcCall(jdbcTemplate.getDataSource())
+                    .withCatalogName("PKG_EMPLOYEE")
+                    .withFunctionName("GET_NAME");
+        
+        Map<String, Object> result = jdbcCall.execute(in);
+        
+        // Return parameter always called 'return' for Oracle...other DBs differ
+        LOGGER.info("Returned Map : " + result.toString());
+        
+        jdbcCall = 
+                new SimpleJdbcCall(jdbcTemplate.getDataSource())
+                    .withCatalogName("PKG_EMPLOYEE")
+                    .withFunctionName("GET_NAME2");
+        
+        result = jdbcCall.execute(in);
+        
+        LOGGER.info("Returned Map 2 : " + result.toString());
+        
+        return new Employee(id, (String) result.get("EMP_NAME"));
     }
 
 }

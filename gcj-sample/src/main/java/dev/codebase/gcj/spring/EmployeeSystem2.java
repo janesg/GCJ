@@ -35,6 +35,12 @@ public class EmployeeSystem2 {
         
         LOGGER.info("Retrieved employee : " + emp);
         
+        emp = dao.getEmployeeByIdUsingFunction(4);
+        
+        assert emp != null && emp.getName().equals("Bob") : "Not able to query for Bob";
+        
+        LOGGER.info("Retrieved employee using package function : " + emp);
+        
         dao.deleteEmployee(emp.getId());
         
         emp = dao.getEmployeeById(4);

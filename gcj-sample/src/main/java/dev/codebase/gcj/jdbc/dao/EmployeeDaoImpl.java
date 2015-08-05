@@ -146,4 +146,9 @@ public class EmployeeDaoImpl implements EmployeeDao {
         throw new UnsupportedOperationException("Couldn't be bothered to implement change to interface");        
     }
 
+    @Override
+    public Employee getEmployeeByIdUsingFunction(int id) {
+        throw new UnsupportedOperationException("Couldn't be bothered to implement change to interface");        
+    }
+
 }
