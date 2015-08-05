@@ -2,6 +2,7 @@ package dev.codebase.gcj.spring;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.FileSystemXmlApplicationContext;
 
 public class HelloWorld {
@@ -9,7 +10,7 @@ public class HelloWorld {
     
     public static void main(String[] args) {
         
-        FileSystemXmlApplicationContext ctx = new FileSystemXmlApplicationContext(args);
+        ConfigurableApplicationContext ctx = new FileSystemXmlApplicationContext(args);
         
         // Lookup by bean id
         GreeterService g = (GreeterService) ctx.getBean("helloWorldGreeter");
