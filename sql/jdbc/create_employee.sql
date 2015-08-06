@@ -1,5 +1,5 @@
 CREATE TABLE employee (
-	id INT NOT NULL,
+	id INTEGER NOT NULL,
 	name VARCHAR2(30),
 	CONSTRAINT customers_pk PRIMARY KEY (id)
 );

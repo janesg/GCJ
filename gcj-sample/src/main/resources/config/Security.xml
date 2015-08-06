@@ -11,6 +11,7 @@
                 <property name="password" value="jasypt" />
             </bean>
         </constructor-arg>
+        <property name="ignoreUnresolvablePlaceholders" value="true"/>
         <property name="locations">
             <list>
                 <value>classpath:properties/jdbc.properties</value>
