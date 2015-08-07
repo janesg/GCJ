@@ -23,11 +23,18 @@
 
     <dependencyManagement>
         <dependencies>
+            <!-- Testing -->
             <dependency>
                 <groupId>junit</groupId>
                 <artifactId>junit</artifactId>
                 <version>4.11</version>
             </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>1.10.19</version>
+            </dependency>
+            <!-- Logging -->
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
@@ -49,11 +56,13 @@
                 <artifactId>logback-core</artifactId>
                 <version>${logback.version}</version>
             </dependency>
+            
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>18.0</version>
             </dependency>
+            
             <!-- Spring Framework -->
             <dependency>
                 <groupId>org.springframework</groupId>
@@ -131,6 +140,7 @@
         </dependencies>        
     </dependencyManagement>
 
+    <!-- We need this otherwise Eclipse m2e plug-in reverts back to J2SE-1.5 when project rebuilt -->
     <build>
         <pluginManagement>
             <plugins>
