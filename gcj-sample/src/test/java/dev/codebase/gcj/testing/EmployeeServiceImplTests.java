@@ -45,6 +45,7 @@ public class EmployeeServiceImplTests {
         verify(dao).findEmployeeById(EMPLOYEE.getId());
         
         // Make sure no other interactions with the dao
+        // Don't over-use it: http://monkeyisland.pl/2008/07/12/should-i-worry-about-the-unexpected/
         verifyNoMoreInteractions(dao);
     }
 
@@ -63,9 +64,6 @@ public class EmployeeServiceImplTests {
         
         // Using Mockito to test the behaviour that occurred calls to the Mock
         verify(dao).createEmployee(EMPLOYEE);
-        
-        // Make sure no other interactions with the dao
-        verifyNoMoreInteractions(dao);
     }
 
     @Test
@@ -77,9 +75,6 @@ public class EmployeeServiceImplTests {
         
         // Using Mockito to test the behaviour that occurred calls to the Mock
         verify(dao).updateEmployee(EMPLOYEE);
-        
-        // Make sure no other interactions with the dao
-        verifyNoMoreInteractions(dao);
     }
 
     @Test
@@ -91,9 +86,6 @@ public class EmployeeServiceImplTests {
         
         // Using Mockito to test the behaviour that occurred calls to the Mock
         verify(dao).deleteEmployee(EMPLOYEE.getId());
-        
-        // Make sure no other interactions with the dao
-        verifyNoMoreInteractions(dao);
     }
 
 }

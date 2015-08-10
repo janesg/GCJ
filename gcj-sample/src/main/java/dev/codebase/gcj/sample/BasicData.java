@@ -49,7 +49,7 @@ public class BasicData implements Comparable<BasicData> {
         if ((this.strE != null && bd.strE == null) || 
             (this.strE == null && bd.strE != null)) return result;
         
-        if (!this.strE.equals(bd.strE)) return result;
+        if (this.strE != null && !this.strE.equals(bd.strE)) return result;
         
         if ((this.strArrF != null && bd.strArrF == null) ||
             (this.strArrF == null && bd.strArrF != null)) return result;

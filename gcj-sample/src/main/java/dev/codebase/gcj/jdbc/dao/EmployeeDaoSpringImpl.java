@@ -72,7 +72,8 @@ public class EmployeeDaoSpringImpl implements EmployeeDao {
             String sql = "insert into EMPLOYEE (id, name) values (" + 
                          employee.getId() + ", '" + employee.getName() + "')";
             LOGGER.info("SQL : " + sql);
-            stm.executeQuery(sql);
+            int ret = stm.executeUpdate(sql);
+            assert ret > 0;
             stm.close();
         } catch (SQLException e) {
             // TODO Auto-generated catch block
@@ -100,7 +101,8 @@ public class EmployeeDaoSpringImpl implements EmployeeDao {
             conn = dataSource.getConnection();
             
             Statement stm = conn.createStatement();
-            stm.executeQuery("delete from EMPLOYEE where id = " + id);
+            int ret = stm.executeUpdate("delete from EMPLOYEE where id = " + id);
+            assert ret > 0;
             stm.close();
         } catch (SQLException e) {
             // TODO Auto-generated catch block
