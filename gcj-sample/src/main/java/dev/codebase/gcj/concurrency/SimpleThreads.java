@@ -12,6 +12,7 @@ public class SimpleThreads {
 
     private static class MessageLoop implements Runnable {
         
+        @Override
         public void run() {
             Random random = new Random(System.nanoTime());
 

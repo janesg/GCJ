@@ -10,6 +10,7 @@ public class Consumer2 implements Runnable {
         this.bq = bq;
     }
 
+    @Override
     public void run() {
         Random random = new Random();
         

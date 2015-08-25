@@ -10,6 +10,7 @@ public class Producer2 implements Runnable {
         this.bq = bq;
     }
 
+    @Override
     public void run() {
         String importantInfo[] = {
             "Mares eat oats",
