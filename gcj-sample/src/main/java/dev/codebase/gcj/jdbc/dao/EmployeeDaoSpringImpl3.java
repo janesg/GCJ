@@ -18,13 +18,16 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcCall;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import dev.codebase.gcj.jdbc.model.Employee;
 
 @Repository
-public class EmployeeDaoSpringImpl2 implements EmployeeDao {
+@Transactional(readOnly = true)
+public class EmployeeDaoSpringImpl3 implements EmployeeDao {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(EmployeeDaoSpringImpl2.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(EmployeeDaoSpringImpl3.class);
     
     @Autowired
     JdbcTemplate jdbcTemplate;
@@ -48,6 +51,7 @@ public class EmployeeDaoSpringImpl2 implements EmployeeDao {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void insertEmployee(Employee employee) {
 
         String sql = "insert into EMPLOYEE (id, name) values (?, ?)";
@@ -62,6 +66,7 @@ public class EmployeeDaoSpringImpl2 implements EmployeeDao {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void deleteEmployee(int id) {
 
         String sql = "delete from EMPLOYEE where id = ?";
@@ -75,6 +80,7 @@ public class EmployeeDaoSpringImpl2 implements EmployeeDao {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void insertEmployees(final List<Employee> employees) {
 
         String sql = "insert into EMPLOYEE (id, name) values (?, ?)";
@@ -98,6 +104,7 @@ public class EmployeeDaoSpringImpl2 implements EmployeeDao {
     }
 
     @Override
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void deleteEmployees(List<Integer> ids) {
         
         String sql = "delete from EMPLOYEE where id = ?";

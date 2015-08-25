@@ -42,6 +42,10 @@
         <property name="dataSource" ref="myDataSource"/>
     </bean>
 
+    <!-- Transaction behaviour based on annotations -->
+    <tx:annotation-driven transaction-manager="txManager"/>
+    
+<!-- 
     <tx:advice id="txAdvice" transaction-manager="txManager">
         <tx:attributes>
             <tx:method name="get*" read-only="true"/>
@@ -54,5 +58,6 @@
                       expression="execution(* dev.codebase.gcj.jdbc.dao.EmployeeDao.*(..))"/>
         <aop:advisor advice-ref="txAdvice" pointcut-ref="employeeDaoSpring2"/>
     </aop:config>
-        
+ -->
+         
 </beans>

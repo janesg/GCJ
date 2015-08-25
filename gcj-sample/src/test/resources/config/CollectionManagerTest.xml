@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:util="http://www.springframework.org/schema/util"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd">
+    
+    <context:component-scan base-package="dev.codebase.gcj.generics"/>
+
+    <!-- Required for activating the Spring annotations in class files -->
+    <context:annotation-config/>
+
+    <bean id="fruitNameCollectionType" class="#{T(String)}">
+        <constructor-arg value="#{T(dev.codebase.gcj.generics.CollectionId).FRUIT_NAMES.type.name}"/>
+    </bean>
+
+    <!-- Map of CollectionId against Map of Authority against a Set of allowed values -->
+    <util:map id="collectionAuthorityMap" key-type="dev.codebase.gcj.generics.CollectionId">
+        <entry key="#{T(dev.codebase.gcj.generics.CollectionId).FRUIT_NAMES}">
+            <util:map key-type="java.lang.String">
+                <entry key="PERM_GREEN">
+                    <util:set value-type="java.lang.String">
+                        <value>Apple</value>
+                        <value>Pear</value>
+                        <value>Lime</value>
+                    </util:set>
+                </entry>
+                <entry key="PERM_RED">
+                    <util:set value-type="java.lang.String">
+                        <value>Apple</value>
+                        <value>Strawberry</value>
+                        <value>Redcurrant</value>
+                    </util:set>
+                </entry>
+            </util:map>
+        </entry>
+        <entry key="#{T(dev.codebase.gcj.generics.CollectionId).SUDUKO_NUMBERS}">
+            <util:map key-type="java.lang.String">
+                <entry key="PERM_ODD">
+                    <util:set value-type="java.lang.Integer">
+                        <value>1</value>
+                        <value>3</value>
+                        <value>5</value>
+                        <value>7</value>
+                        <value>9</value>
+                    </util:set>
+                </entry>
+                <entry key="PERM_EVEN">
+                    <util:set value-type="java.lang.Integer">
+                        <value>2</value>
+                        <value>4</value>
+                        <value>6</value>
+                        <value>8</value>
+                    </util:set>
+                </entry>
+            </util:map>
+        </entry>
+        <entry key="#{T(dev.codebase.gcj.generics.CollectionId).WORK_COLLEAGUES}">
+            <util:map key-type="java.lang.String">
+                <entry key="PERM_ODD">
+                    <util:set>                    
+                        <bean class="dev.codebase.gcj.generics.User">
+                            <constructor-arg value="Bob"/>
+                            <constructor-arg>
+                                <util:set value-type="java.lang.String">
+                                    <value>PERM_ONE</value>
+                                    <value>PERM_TWO</value>
+                                    <value>PERM_THREE</value>
+                                </util:set>
+                            </constructor-arg>
+                        </bean>
+                        <bean class="dev.codebase.gcj.generics.User">
+                            <constructor-arg value="Enid"/>
+                            <constructor-arg>
+                                <util:set value-type="java.lang.String">
+                                    <value>PERM_FOUR</value>
+                                    <value>PERM_FIVE</value>
+                                </util:set>
+                            </constructor-arg>
+                        </bean>
+                    </util:set>
+                </entry>
+            </util:map>
+        </entry>
+    </util:map>
+
+           
+</beans>

@@ -6,6 +6,7 @@ import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class HelloWorld2 {
+    
     private static final Logger LOGGER = LoggerFactory.getLogger(HelloWorld2.class);
     
     public static void main(String[] args) {
