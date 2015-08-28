@@ -35,6 +35,12 @@
                 <artifactId>mockito-core</artifactId>
                 <version>1.10.19</version>
             </dependency>
+            <dependency>
+                <groupId>org.powermock</groupId>
+                <artifactId>powermock-api-mockito</artifactId>
+                <version>1.6.2</version>
+            </dependency>
+                        
             <!-- Logging -->
             <dependency>
                 <groupId>org.slf4j</groupId>
@@ -58,6 +64,7 @@
                 <version>${logback.version}</version>
             </dependency>
             
+            <!-- Google Guava - collections -->
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>

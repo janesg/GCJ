@@ -4,8 +4,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class InMemoryEmployeeDaoImpl implements EmployeeDao {
 
+    private final static Logger LOGGER = LoggerFactory.getLogger(InMemoryEmployeeDaoImpl.class);
+    
     private Map<Integer, Employee> emps;
     
     public InMemoryEmployeeDaoImpl() {
@@ -41,6 +46,11 @@ public class InMemoryEmployeeDaoImpl implements EmployeeDao {
     @Override
     public Employee findEmployeeById(int id) {
         return emps.get(id);
+    }
+
+    @Override
+    public void sayHiToEmployee(Employee employee) {
+        LOGGER.info("Well Hello there " + employee.getFirstName() + " " + employee.getLastName());
     }
 
 }

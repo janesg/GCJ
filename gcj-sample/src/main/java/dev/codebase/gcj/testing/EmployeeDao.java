@@ -9,4 +9,6 @@ public interface EmployeeDao {
     Employee deleteEmployee(int id);
     
     Employee findEmployeeById(int id);
+    
+    void sayHiToEmployee(Employee employee);
 }

@@ -9,5 +9,9 @@
 
     <!-- Required for activating the Spring annotations in class files -->
     <context:annotation-config/>
-           
+
+    <!-- Make prototype scope so that @Before method creates new instance each time -->
+    <bean class="dev.codebase.gcj.testing.InMemoryEmployeeDaoImpl" 
+          scope="prototype"/>
+               
 </beans>

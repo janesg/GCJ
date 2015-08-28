@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -15,42 +16,43 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class InMemoryEmployeeDaoTests {
 
     private static Employee FOUNDER = new Employee(21, "Gary", "Janes", new BigDecimal("20750.15"));
-    private InMemoryEmployeeDaoImpl impl = null;
+    
+    @Autowired
+    private EmployeeDao dao;
     
     @Before
     public void setup() {
-        impl = new InMemoryEmployeeDaoImpl();
-        impl.createEmployee(FOUNDER);
+        dao.createEmployee(FOUNDER);
     }
     
     @Test
     public void testCreateEmployee() {
         Employee e = new Employee(21);
-        assertFalse(impl.createEmployee(e));
+        assertFalse(dao.createEmployee(e));
         
         e = new Employee(15);
-        assertTrue(impl.createEmployee(e));
+        assertTrue(dao.createEmployee(e));
     }
 
     @Test
     public void testUpdateEmployee() {
         Employee e = new Employee(21);
-        assertTrue(impl.updateEmployee(e));
+        assertTrue(dao.updateEmployee(e));
         
         e = new Employee(15);
-        assertFalse(impl.updateEmployee(e));
+        assertFalse(dao.updateEmployee(e));
     }
 
     @Test
     public void testDeleteEmployee() {
-        assertSame(impl.deleteEmployee(21), FOUNDER);
-        assertNull(impl.deleteEmployee(15));
+        assertSame(dao.deleteEmployee(21), FOUNDER);
+        assertNull(dao.deleteEmployee(15));
     }
 
     @Test
     public void testFindEmployeeById() {
-        assertSame(impl.deleteEmployee(21), FOUNDER);
-        assertNull(impl.findEmployeeById(15));
+        assertSame(dao.deleteEmployee(21), FOUNDER);
+        assertNull(dao.findEmployeeById(15));
     }
 
 }

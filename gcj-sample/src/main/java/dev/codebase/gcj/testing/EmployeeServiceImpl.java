@@ -19,7 +19,13 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public Employee createEmployee(int id, String firstName, String lastName, BigDecimal salary) {
         Employee e = new Employee(id, firstName, lastName, salary);
-        return dao.createEmployee(e) ? e : null;
+        
+        if (dao.createEmployee(e)) {
+            dao.sayHiToEmployee(e);
+            return e;
+        } else {
+            return null;
+        }
     }
 
     @Override
@@ -31,5 +37,5 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void deleteEmployee(int id) {
         dao.deleteEmployee(id);
     }
-
+    
 }
