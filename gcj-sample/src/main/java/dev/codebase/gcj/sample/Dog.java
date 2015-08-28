@@ -81,6 +81,7 @@ public class Dog {
             return this;
         }
 
+        @Override
         public Dog build() {
             if (!useable) {
                 throw new IllegalStateException("Invalid to reuse a builder once build invoked");                

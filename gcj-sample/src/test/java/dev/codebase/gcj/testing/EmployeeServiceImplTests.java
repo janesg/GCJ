@@ -31,6 +31,12 @@ public class EmployeeServiceImplTests {
     }
     
     @Test
+    public void sanityCheck() {
+        assertNotNull(dao);
+        assertNotNull(classUnderTest);
+    }
+    
+    @Test
     public void testFindEmployee() {
         // Using Mockito to define 'Stub' for verifying state
         when(dao.findEmployeeById(EMPLOYEE.getId())).thenReturn(EMPLOYEE);
