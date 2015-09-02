@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+                           http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <mvc:annotation-driven />
+    
+    <context:component-scan base-package="dev.codebase.gcj.mvc.controller"></context:component-scan>
+
+    <!-- Spring 'p' namespace used for property (setter) injection -->                           
+    <bean id="loginService" 
+          class="dev.codebase.gcj.mvc.controller.LoginService"
+          scope="request"
+          p:userId="#{request.getParameter('userId')}"
+          p:password="#{request.getParameter('password')}" >
+          
+          <!-- 
+               Using scoped beans as dependencies:
+               http://docs.spring.io/spring/docs/4.2.x/spring-framework-reference/html/beans.html#beans-factory-scopes-other-injection
+               http://stackoverflow.com/questions/14371335/spring-scoped-proxy-bean
+           -->
+          <aop:scoped-proxy/>
+    </bean>
+
+    <!-- Spring 'c' namespace used for constructor injection -->
+    <!-- see http://gordondickens.com/wordpress/2012/06/12/spring-3-1-constructor-namespace/ -->                               
+    <bean id="loginDetails" 
+          class="dev.codebase.gcj.mvc.controller.LoginDetails"
+          scope="session"
+          c:user="#{session.getAttribute('userId')}"
+          c:loginDateTime="#{session.getAttribute('loggedInDateTime')}" >
+          
+          <aop:scoped-proxy/>
+    </bean>    
+                           
+</beans>

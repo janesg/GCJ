@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!-- Spring 'p' namespace used for property (setter) injection -->                           
+    <bean id="loginService" 
+          class="dev.codebase.gcj.mvc.controller.LoginServiceImpl"
+          scope="request"
+          p:userId="#{request.getParameter('userId')}"
+          p:password="#{request.getParameter('password')}" >
+          
+          <!-- 
+               Using scoped beans as dependencies:
+               http://docs.spring.io/spring/docs/4.2.x/spring-framework-reference/html/beans.html#beans-factory-scopes-other-injection
+               http://stackoverflow.com/questions/14371335/spring-scoped-proxy-bean
+           -->
+          <aop:scoped-proxy/>
+    </bean>
+
+    <!-- Spring 'p' namespace used for property (setter) injection -->                           
+    <bean id="registrationService" 
+          class="dev.codebase.gcj.mvc.controller.RegistrationServiceImpl"
+          scope="request"
+          p:userId="#{request.getParameter('userId')}"
+          p:password="#{request.getParameter('password')}"
+          p:firstName="#{request.getParameter('fName')}"
+          p:lastName="#{request.getParameter('lName')}">
+          
+          <aop:scoped-proxy/>
+    </bean>
+
+</beans>
