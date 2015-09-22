@@ -1,0 +1,198 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass"><value>org.springframework.web.servlet.view.JstlView</value></property>
+        <property name="prefix"><value>/WEB-INF/pages/</value></property>
+        <property name="suffix"><value>.jsp</value></property>
+    </bean>
+
+    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+        <property name="mediaTypes">
+            <map>
+                <entry key="xml" value="application/xml"/>
+                <entry key="html" value="text/html"/>
+            </map>
+        </property>
+        <property name="viewResolvers">
+            <list>
+                <bean class="org.springframework.web.servlet.view.BeanNameViewResolver"/>
+                <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+                    <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
+                    <property name="prefix">
+                        <value>/WEB-INF/pages/</value>
+                    </property>
+                    <property name="suffix">
+                        <value>.jsp</value>
+                    </property>
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- one of the properties available; the maximum file size in bytes -->
+        <property name="maxUploadSize">
+            <value>5000000</value>
+        </property>
+    </bean>
+
+    <context:component-scan base-package="dev.codebase.gcj.gallery.rest"/>
+
+    <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping"/>
+
+    <!--
+    <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"/>
+    --> 
+
+    <bean id="jaxbView" class="org.springframework.web.servlet.view.xml.MarshallingView">
+        <constructor-arg ref="jaxbMarshaller"/>
+    </bean>
+
+    <!-- JAXB2 marshaller. Automagically turns beans into xml -->
+    <bean id="jaxbMarshaller" class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+        <property name="classesToBeBound">
+            <list>
+                <value>dev.codebase.gcj.gallery.dto.ArtEntityDTO</value>
+                <value>dev.codebase.gcj.gallery.dto.CategoryDTO</value>
+                <value>dev.codebase.gcj.gallery.dto.CommentDTO</value>
+                <value>dev.codebase.gcj.gallery.dto.ExhibitionDTO</value>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="insecureHandlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="interceptors">
+            <list>
+            </list>
+        </property>
+        <property name="urlMap">
+            <map>
+                <entry key="**/selectCategory.art" value-ref="selectCategoryController" />
+                <entry key="**/login.art" value-ref="loginController" />
+                <entry key="**/selectArt.art" value-ref="selectArtController" />
+                <entry key="**/viewCategories.art" value-ref="viewCategoriesController" />
+                <entry key="**/displayImage.art" value-ref="displayImageController" />
+                <entry key="**/logOut.art" value-ref="logOutController" />
+                <!-- <entry key="**/selectExhibition.art" value-ref="selectExhibitionController" /> -->
+                <!-- <entry key="**/viewExhibitions.art" value-ref="viewExhibitionController" /> -->
+            </map>
+        </property>
+    </bean>
+
+    <bean id="secureHandlerMapping" class="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping">
+        <property name="interceptors">
+            <list>
+
+            </list>
+        </property>
+        <property name="urlMap">
+            <map>
+                <entry key="**/uploadArt.art" value-ref="uploadArtController" />
+                <entry key="**/createExhibition.art" value-ref="createExhibitController" />
+            </map>
+        </property>
+    </bean>
+
+    <!-- ################### Controllers  ############################ -->
+    <!--  Controller for the Login Form -->
+
+    <bean id="loginController" class="dev.codebase.gcj.gallery.controller.LoginController">
+        <property name="artworkFacade">
+            <ref bean="artworkFacade"/>
+        </property>
+        <property name="formView">
+            <value>admin_login</value>
+        </property>
+        <property name="successView">
+            <value>admin_menu</value>
+        </property>
+    </bean>
+
+    <bean id="createExhibitController" class="dev.codebase.gcj.gallery.controller.CreateExhibitController">
+        <property name="artworkFacade">
+            <ref bean="artworkFacade"/>
+        </property>
+        <property name="formView">
+            <value>admin_createexhib</value>
+        </property>
+        <property name="successView">
+            <value>admin_createexhibSuccess</value>
+        </property>
+    </bean>
+
+    <bean id="viewCategoriesController" class="dev.codebase.gcj.gallery.controller.ViewCategoriesController">
+        <property name="artworkFacade">
+            <ref bean="artworkFacade"/>
+        </property>
+        <property name="successView">
+            <value>viewcategories</value>
+        </property>
+    </bean>
+
+    <bean id="selectCategoryController" class="dev.codebase.gcj.gallery.controller.SelectCategoryController">
+        <property name="artworkFacade">
+            <ref bean="artworkFacade"/>
+        </property>
+        <property name="formView">
+            <value>viewcategories</value>
+        </property>
+        <property name="successView">
+            <value>viewart</value>
+        </property>
+    </bean>
+
+    <bean id="displayImageController" class="dev.codebase.gcj.gallery.controller.DisplayImageController">
+        <property name="artworkFacade">
+            <ref bean="artworkFacade"/>
+        </property>
+    </bean>
+
+    <bean id="selectArtController" class="dev.codebase.gcj.gallery.controller.SelectArtController">
+        <property name="artworkFacade">
+            <ref bean="artworkFacade"/>
+        </property>
+        <property name="formView">
+            <value>viewcategories</value>
+        </property>
+        <property name="successView">
+            <value>viewart</value>
+        </property>
+    </bean>
+
+    <bean id="logOutController" class="dev.codebase.gcj.gallery.controller.LogOutController">
+        <property name="artworkFacade">
+            <ref bean="artworkFacade"/>
+        </property>
+        <property name="successView">
+            <value>home</value>
+        </property>
+    </bean>
+
+    <bean id="uploadArtController" class="dev.codebase.gcj.gallery.controller.UploadArtController">
+        <property name="artworkFacade">
+            <ref bean="artworkFacade"/>
+        </property>
+        <property name="commandClass">
+            <value>dev.codebase.gcj.gallery.domain.ArtEntity</value>
+        </property>
+        <property name="commandName">
+            <value>artentity</value>
+        </property>
+        <property name="sessionForm">
+            <value>false</value>
+        </property>
+        <property name="formView">
+            <value>admin_upload</value>
+        </property>
+        <property name="successView">
+            <value>admin_success</value>
+        </property>
+        <!--<property name="validator"><ref local="loginValidator"/></property>-->
+    </bean>
+
+</beans>

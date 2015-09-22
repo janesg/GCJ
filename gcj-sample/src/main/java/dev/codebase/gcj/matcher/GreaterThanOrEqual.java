@@ -16,7 +16,7 @@ public class GreaterThanOrEqual<T extends Comparable<T>> extends BaseMatcher<T> 
 
     @Factory
     public static <T extends Comparable<T>> Matcher<T> greaterThanOrEqual(T t) {
-        return new GreaterThanOrEqual(t);
+        return new GreaterThanOrEqual<T>(t);
     }
     
     @Override

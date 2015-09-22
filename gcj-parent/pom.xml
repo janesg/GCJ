@@ -16,10 +16,13 @@
         <slf4j.version>1.7.12</slf4j.version>
         <logback.version>1.1.3</logback.version>
         <spring.version>4.2.0.RELEASE</spring.version>
+        <spring.integration.version>4.2.0.RELEASE</spring.integration.version>
+        <spring.batch.version>3.0.5.RELEASE</spring.batch.version>
         <spring.security.version>4.0.2.RELEASE</spring.security.version>
         <jasypt.version>1.9.2</jasypt.version>
-        <hibernate.version>4.3.10.Final</hibernate.version>
+        <hibernate.version>4.3.11.Final</hibernate.version>
         <coherence.version>12.1.3.0.0</coherence.version>
+        <dozer.version>5.5.1</dozer.version>
     </properties>
 
     <dependencyManagement>
@@ -153,24 +156,45 @@
                 <artifactId>spring-security-config</artifactId>
                 <version>${spring.security.version}</version>
             </dependency>
+
+            <!-- Spring Integration -->
+            <dependency>
+                <groupId>org.springframework.integration</groupId>
+                <artifactId>spring-integration-core</artifactId>
+                <version>${spring.integration.version}</version>
+            </dependency>
+
+            <!-- Spring Batch -->
+            <dependency>
+                <groupId>org.springframework.batch</groupId>
+                <artifactId>spring-batch-core</artifactId>
+                <version>${spring.batch.version}</version>
+            </dependency>
             
             <!-- Databases -->
-            <dependency>
-                <groupId>com.oracle</groupId>
-                <artifactId>ojdbc6</artifactId>
-                <version>11.2.0.2</version>
-            </dependency>
+            <!-- DB Connection Pooling -->
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-dbcp2</artifactId>
                 <version>2.1.1</version>
             </dependency>
             <dependency>
+                <groupId>com.oracle</groupId>
+                <artifactId>ojdbc6</artifactId>
+                <version>11.2.0.2</version>
+            </dependency>
+            <dependency>
                 <groupId>org.hsqldb</groupId>
                 <artifactId>hsqldb</artifactId>
                 <version>2.3.3</version>
             </dependency>
-                        
+            <dependency>
+            	<groupId>com.h2database</groupId>
+            	<artifactId>h2</artifactId>
+            	<version>1.4.188</version>
+            </dependency>
+                                 
+            <!-- Encryption -->   
             <dependency>
                 <groupId>org.jasypt</groupId>
                 <artifactId>jasypt</artifactId>
@@ -188,7 +212,12 @@
                 <artifactId>hibernate-core</artifactId>
                 <version>${hibernate.version}</version>
             </dependency>
-            
+            <dependency>
+                <groupId>org.hibernate</groupId>
+                <artifactId>hibernate-entitymanager</artifactId>
+                <version>${hibernate.version}</version>
+            </dependency>
+                        
             <!-- Oracle Coherence -->
             <dependency>
                 <groupId>tangosol-coherence</groupId>
@@ -201,6 +230,7 @@
                 <groupId>javax.servlet</groupId>
                 <artifactId>javax.servlet-api</artifactId>
                 <version>3.1.0</version>
+                <scope>provided</scope>         <!-- means that it is not bundled into the WAR -->
             </dependency>
             <dependency>
                 <groupId>javax.servlet</groupId>
@@ -208,13 +238,35 @@
                 <version>1.2</version>
             </dependency>
 
+            <!-- Java Bean mapping -->
+            <dependency>
+                <groupId>net.sf.dozer</groupId>
+                <artifactId>dozer</artifactId>
+                <version>${dozer.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>net.sf.dozer</groupId>
+                <artifactId>dozer-spring</artifactId>
+                <version>${dozer.version}</version>
+            </dependency>
+
+            <!-- Image processing -->
+            <dependency>
+                <groupId>javax.media</groupId>
+                <artifactId>jai_core</artifactId>
+                <version>1.1.3-alpha</version>
+            </dependency>
+                        
         </dependencies>        
     </dependencyManagement>
 
-    <!-- We need this otherwise Eclipse m2e plug-in reverts back to J2SE-1.5 when project rebuilt -->
     <build>
         <pluginManagement>
             <plugins>
+                <!-- 
+                    We need this otherwise Eclipse m2e plug-in reverts
+                    back to J2SE-1.5 when project is rebuilt 
+                -->
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
@@ -224,7 +276,14 @@
                         <target>1.8</target>
                     </configuration>                
                 </plugin>
-            </plugins>
+                
+                <!-- Can be used for Tomcat 7 & 8 -->
+                <plugin>
+                	<groupId>org.apache.tomcat.maven</groupId>
+                	<artifactId>tomcat7-maven-plugin</artifactId>
+                	<version>2.2</version>
+                </plugin>
+            </plugins>             
         </pluginManagement>
     </build>
 
@@ -233,5 +292,6 @@
         <module>..\gcj-mvc</module>
         <module>..\gcj-mvc-testing</module>
         <module>..\gcj-spring-web</module>
+        <module>..\gcj-spring-hib-web</module>
     </modules>
 </project>
