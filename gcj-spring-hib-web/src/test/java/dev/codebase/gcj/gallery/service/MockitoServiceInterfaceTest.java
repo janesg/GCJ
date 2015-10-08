@@ -1,15 +1,18 @@
 package dev.codebase.gcj.gallery.service;
 
+import dev.codebase.gcj.gallery.dao.PersonDao;
 import dev.codebase.gcj.gallery.domain.Person;
 import dev.codebase.gcj.gallery.exception.AuthenticationException;
-import dev.codebase.gcj.gallery.service.ArtworkFacade;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -17,12 +20,17 @@ public class MockitoServiceInterfaceTest {
 
     private Person person;
     
+    @InjectMocks
+    private ArtworkFacadeImpl classUnderTest;
+
     @Mock
-    private ArtworkFacade artworkService;
+    private PersonDao personDao;
 
     @Before
     public void initializeTest() {
         person = new Person();
+        person.setFirstName("Bob");
+        person.setLastName("Ajob");
         person.setUsername("username");
         person.setPassword("goodpassword");
     }
@@ -30,17 +38,25 @@ public class MockitoServiceInterfaceTest {
     @Test
     public void testAuthenticationSuccess() throws AuthenticationException {
         
-        when(artworkService.authenticatePerson("username", "goodpassword")).thenReturn(person);
+        when(personDao.authenticatePerson("username", "goodpassword")).thenReturn(person);
         
-        artworkService.authenticatePerson("username", "goodpassword");
+        Person p = classUnderTest.authenticatePerson("username", "goodpassword");
+        
+        assertTrue(p.getFirstName().equals(person.getFirstName()));
+        assertTrue(p.getLastName().equals(person.getLastName()));
+        assertTrue(p.getUsername().equals(person.getUsername()));
+        
+        // Using Mockito to test the behaviour that occurred calls to the Mock
+        verify(personDao).authenticatePerson("username", "goodpassword");
+
     }
 
     @Test(expected = AuthenticationException.class)
     public void testAuthenticationFailure() throws AuthenticationException {
         
-        when(artworkService.authenticatePerson("username", "badpassword")).thenThrow(AuthenticationException.class);
+        when(personDao.authenticatePerson("username", "badpassword")).thenThrow(AuthenticationException.class);
         
-        artworkService.authenticatePerson("username", "badpassword");
+        classUnderTest.authenticatePerson("username", "badpassword");
     }
 
 }
