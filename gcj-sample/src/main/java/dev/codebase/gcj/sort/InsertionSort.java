@@ -1,5 +1,9 @@
 package dev.codebase.gcj.sort;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 /*
  * Insertion sort is a simple sorting algorithm, it builds the final sorted
  * array one item at a time. It is much less efficient on large lists than other
@@ -71,9 +75,7 @@ public class InsertionSort {
                     System.out.println(sepLR);
                     System.out.println(sepRL);
                                         
-                    input[j] = input[j] ^ input[j - 1];
-                    input[j - 1] = input[j] ^ input[j - 1];
-                    input[j] = input[j] ^ input[j - 1];
+                    swap(j, j - 1, input);
                     
                     sb = new StringBuffer("\t ");
                     
@@ -90,9 +92,77 @@ public class InsertionSort {
         return;
     }
     
-    public static void main(String a[]) {
-        int[] arr = { 10, 34, 2, 56, 7, 67, 88, 42 };
-        doInsertionSort(arr);
+    public static void doInsertionSortBare(int[] input) {
+
+        // Outer loop : begin at 2nd element
+        //              iterate forwards to end
+        for (int i = 1; i < input.length; i++) {
+            
+            // Inner loop : begin at current outer loop index (i)
+            //              iterate backwards to start            
+            for (int j = i; j > 0; j--) {
+                if (input[j] < input[j - 1]) {
+                    swap(j, j - 1, input);
+                }
+            }
+        }
+        
+        return;
     }
     
+    private static void swap(int i, int j, int[] array) {
+
+        // Swapping ints without a temp variable
+        array[i] = array[i] ^ array[j];
+        array[j] = array[i] ^ array[j];
+        array[i] = array[i] ^ array[j];
+
+        return;
+    }
+
+    /*
+     * Another implementation from Java Programming Interviews Exposed
+     * 
+     * This one sorts a List rather than an array
+     * It returns a new List.
+     * It uses a LinkedList so that insertions can be efficiently done
+     * at specific point in List
+     */
+    public static List<Integer> insertSort(final List<Integer> numbers) {
+        
+        final List<Integer> sortedList = new LinkedList<>();
+        
+        originalList: for (Integer number : numbers) {
+            
+            for (int i = 0; i < sortedList.size(); i++) {
+                if (number < sortedList.get(i)) {
+                    sortedList.add(i, number);
+                    continue originalList;
+                }
+            }
+            
+            // No smaller numbers in sortedList so add to end
+            sortedList.add(sortedList.size(), number);
+        }
+        
+        return sortedList;
+    }    
+    
+    public static void main(String a[]) {
+        int[] arr = { 10, 34, 2, 56, 7, 67, 88, 42 };
+        
+        List<Integer> arrInteger = new ArrayList<Integer>();
+        
+        // Can't autobox an array of primitive so have to loop and autobox each element
+        for (int i = 0; i < arr.length; i++) {
+            arrInteger.add(arr[i]);
+        }
+        
+        doInsertionSort(arr);
+        
+        System.out.println("arrInteger prior to insertSort : " + arrInteger);
+        System.out.println("arrInteger after insertSort : " + insertSort(arrInteger));
+
+    }
+
 }
